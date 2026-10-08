@@ -1,0 +1,235 @@
+/* Navigation island, adapted from the AKRUS header. */
+:root {
+  --menu-height: 44px;
+  --menu-island-height: 72px;
+  --menu-offset: 16px;
+  --menu-gap: 3px;
+  --menu-inset: 6px;
+  --menu-item-padding: 16px;
+  --menu-panel-width: 320px;
+  --menu-panel-gap: 12px;
+  --menu-lens-fill: rgb(255 255 255 / .07);
+  --menu-rim: inset 0 1px 0 rgb(255 255 255 / .28), inset 0 -1px 0 rgb(255 255 255 / .055);
+  --menu-shadow: 0 12px 28px rgb(0 0 0 / .16);
+  --menu-slide: 240ms cubic-bezier(.2, .7, .2, 1);
+  --menu-scrim-tail: 72px;
+  --menu-scrim-solid: rgb(7 16 23 / .98);
+  --menu-scrim-soft: rgb(7 16 23 / .88);
+}
+
+.navigation-shell { position: relative; width: max-content; max-width: 100%; }
+body[data-view=home] .navigation-shell { margin-top: 26px; }
+body[data-view] .navigation-shell .nav {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--menu-gap);
+  width: max-content;
+  max-width: 100%;
+  margin: 0;
+  padding: var(--menu-inset);
+  border: var(--lg-line) solid var(--lg-edge);
+  border-radius: var(--lg-pill);
+  background: var(--lg-shell);
+  box-shadow: var(--menu-rim), var(--menu-shadow);
+  -webkit-backdrop-filter: var(--lg-header-filter);
+  backdrop-filter: var(--lg-header-filter);
+  isolation: isolate;
+}
+body[data-view] .navigation-shell .nav a {
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--menu-height);
+  padding: 0 var(--menu-item-padding);
+  border-radius: var(--lg-pill);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--lg-muted);
+  background: transparent;
+  transition: color var(--lg-motion);
+}
+body[data-view] .navigation-shell .nav a::after { content: none; }
+body[data-view] .navigation-shell .nav a[aria-current=page] {
+  background: var(--menu-lens-fill);
+  color: var(--lg-accent);
+}
+body[data-view] .navigation-shell .nav[data-lens-ready] a[aria-current=page] { background: transparent; }
+.nav-lens {
+  position: absolute;
+  z-index: 0;
+  inset: 0 auto auto 0;
+  width: var(--menu-lens-width, 0px);
+  height: var(--menu-lens-height, var(--menu-height));
+  border: 0;
+  border-radius: var(--lg-pill);
+  background: var(--menu-lens-fill);
+  box-shadow: none;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(var(--menu-lens-x, 0px), var(--menu-lens-y, 0px));
+  transition: transform var(--menu-slide), width var(--menu-slide), opacity var(--lg-motion);
+}
+.nav[data-lens-ready] .nav-lens { opacity: 1; }
+
+body[data-view]:not([data-view=home]) .header {
+  height: calc(var(--menu-island-height) + var(--menu-offset) * 2);
+  padding: var(--menu-offset) 0;
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  isolation: isolate;
+}
+body[data-view]:not([data-view=home]) .header::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0 0 auto;
+  height: calc(100% + var(--menu-scrim-tail));
+  background: linear-gradient(to bottom,
+    var(--lg-canvas) 0,
+    var(--menu-scrim-solid) calc(var(--menu-island-height) + var(--menu-offset)),
+    var(--menu-scrim-soft) calc(var(--menu-island-height) + var(--menu-offset) * 2),
+    transparent 100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--lg-motion);
+}
+body[data-view]:not([data-view=home]) .header[data-scrolled]::before { opacity: 1; }
+body[data-view]:not([data-view=home]) .header::after { content: none; }
+body[data-view]:not([data-view=home]) .header-inner {
+  min-height: var(--menu-island-height);
+  padding: 8px 16px 8px 24px;
+  border: var(--lg-line) solid transparent;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  isolation: isolate;
+  gap: 24px;
+}
+body[data-view]:not([data-view=home]) .header-inner::before { content: none; }
+body[data-view]:not([data-view=home]) .navigation-shell .nav {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+/* Internal pages keep only the hovered/focused item as a glass surface. */
+body[data-view]:not([data-view=home]) .navigation-shell .nav .nav-lens { display: none; }
+body[data-view]:not([data-view=home]) .navigation-shell .nav a[aria-current=page] { background: transparent; }
+body[data-view]:not([data-view=home]) .navigation-shell .nav a { transition: color var(--lg-motion), background-color var(--lg-motion); }
+body[data-view]:not([data-view=home]) main {
+  padding-top: calc(var(--menu-island-height) + var(--menu-offset) * 2);
+}
+body[data-view] .header .menu-toggle { display: none; }
+
+@media (hover: hover) and (pointer: fine) {
+  body[data-view] .navigation-shell .nav a:hover { color: var(--lg-text); background: transparent; }
+  body[data-view]:not([data-view=home]) .navigation-shell .nav a:hover {
+    background: var(--menu-lens-fill);
+    -webkit-backdrop-filter: var(--lg-header-filter);
+    backdrop-filter: var(--lg-header-filter);
+  }
+  body[data-view] .header .menu-toggle:hover { border-color: var(--lg-edge-active); }
+  body[data-view]:not([data-view=home]) .header .menu-toggle:hover {
+    background: var(--menu-lens-fill);
+    -webkit-backdrop-filter: var(--lg-header-filter);
+    backdrop-filter: var(--lg-header-filter);
+  }
+}
+body[data-view] .navigation-shell .nav a:focus-visible { color: var(--lg-text); outline-offset: 1px; }
+body[data-view]:not([data-view=home]) .navigation-shell .nav a:focus-visible,
+body[data-view]:not([data-view=home]) .header .menu-toggle:focus-visible {
+  background: var(--menu-lens-fill);
+  -webkit-backdrop-filter: var(--lg-header-filter);
+  backdrop-filter: var(--lg-header-filter);
+}
+
+@media (width < 900px) {
+  body[data-view=home] .navigation-shell { width: min(var(--menu-panel-width), 100%); }
+  body[data-view] .header .menu-toggle {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: auto;
+    min-width: 108px;
+    height: var(--menu-height);
+    padding: 0 15px;
+    border: var(--lg-line) solid var(--lg-edge);
+    border-radius: var(--lg-pill);
+    background: var(--lg-body);
+    box-shadow: var(--menu-rim), var(--menu-shadow);
+    color: var(--lg-text);
+    -webkit-backdrop-filter: var(--lg-header-filter);
+    backdrop-filter: var(--lg-header-filter);
+  }
+  body[data-view=home] .header .menu-toggle { width: 100%; height: 50px; }
+  body[data-view]:not([data-view=home]) .header .menu-toggle { border-color: transparent; box-shadow: none; background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  body[data-view]:not([data-view=home]) .header .menu-toggle[aria-expanded=true] { background: var(--menu-lens-fill); -webkit-backdrop-filter: var(--lg-header-filter); backdrop-filter: var(--lg-header-filter); }
+  .menu-label { font-size: 13px; font-weight: 600; }
+  .menu-current { flex: 1; font-size: 12px; color: var(--lg-muted); text-align: right; margin-right: 5px; }
+  body[data-view]:not([data-view=home]) .menu-current { display: none; }
+  .menu-icon { position: relative; display: block; width: 18px; height: 12px; }
+  .menu-icon span { position: absolute; left: 0; width: 18px; height: 1px; background: currentColor; transition: transform var(--lg-motion); }
+  .menu-icon span:first-child { top: 3px; }
+  .menu-icon span:last-child { bottom: 3px; }
+  .menu-toggle[aria-expanded=true] .menu-icon span:first-child { transform: translateY(2.5px) rotate(45deg); }
+  .menu-toggle[aria-expanded=true] .menu-icon span:last-child { transform: translateY(-2.5px) rotate(-45deg); }
+  body[data-view] .navigation-shell .nav,
+  body[data-view]:not([data-view=home]) .navigation-shell .nav {
+    display: none;
+    position: absolute;
+    inset: calc(100% + var(--menu-panel-gap)) 0 auto auto;
+    width: min(var(--menu-panel-width), calc(100vw - 48px));
+    max-width: none;
+    padding: 10px;
+    gap: var(--menu-gap);
+    border: var(--lg-line) solid var(--lg-edge);
+    border-radius: var(--lg-card);
+    background: var(--lg-header);
+    box-shadow: var(--menu-rim), var(--menu-shadow);
+    -webkit-backdrop-filter: var(--lg-header-filter);
+    backdrop-filter: var(--lg-header-filter);
+  }
+  body[data-view=home] .navigation-shell .nav { position: relative; inset: auto; width: 100%; margin-top: var(--menu-panel-gap); }
+  body[data-view] .navigation-shell .nav.open { display: flex; flex-direction: column; align-items: stretch; }
+  body[data-view] .navigation-shell .nav a { min-height: 48px; padding: 0 16px; justify-content: space-between; border-radius: var(--lg-small); font-size: 15px; }
+  body[data-view] .navigation-shell .nav a[aria-current=page] { background: var(--menu-lens-fill); box-shadow: none; }
+  body[data-view] .navigation-shell .nav a[aria-current=page]::after { content: ""; position: static; flex-shrink: 0; width: 6px; height: 6px; border-radius: var(--lg-pill); background: var(--lg-accent); }
+  .nav-lens { display: none; }
+  body[data-view]:not([data-view=home]) .header-inner { width: calc(100% - 32px); min-height: 64px; padding: 9px 10px 9px 18px; gap: 12px; }
+  body[data-view]:not([data-view=home]) .header h1 { font-size: 23px; }
+  body[data-view]:not([data-view=home]) .header { --menu-island-height: 64px; }
+  body[data-view]:not([data-view=home]) main { padding-top: 96px; }
+}
+@media (max-width: 370px) {
+  body[data-view]:not([data-view=home]) .header-inner { padding-left: 14px; }
+  body[data-view]:not([data-view=home]) .header h1 { font-size: 21px; }
+  body[data-view] .header .menu-toggle { min-width: 96px; padding-inline: 12px; gap: 9px; }
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  body[data-view=home] .navigation-shell .nav,
+  body[data-view] .header .menu-toggle { background: var(--lg-fallback); }
+  @media (width < 900px) {
+    body[data-view] .navigation-shell .nav,
+    body[data-view]:not([data-view=home]) .navigation-shell .nav { background: var(--lg-fallback); }
+  }
+  body[data-view]:not([data-view=home]) .navigation-shell .nav a:focus-visible,
+  body[data-view]:not([data-view=home]) .header .menu-toggle:focus-visible,
+  body[data-view]:not([data-view=home]) .header .menu-toggle[aria-expanded=true] { background: var(--lg-fallback); }
+  @media (hover: hover) and (pointer: fine) {
+    body[data-view]:not([data-view=home]) .navigation-shell .nav a:hover,
+    body[data-view]:not([data-view=home]) .header .menu-toggle:hover { background: var(--lg-fallback); }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body[data-view]:not([data-view=home]) .header::before { transition: none; }
+  .nav-lens { transition: none; }
+  .menu-icon span { transition: none; }
+}

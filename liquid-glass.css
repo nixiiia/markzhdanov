@@ -1,0 +1,288 @@
+/* Material layer only. Layout and typography remain in styles.css. */
+:root {
+  --lg-canvas: #071017;
+  --lg-text: #f4f7fa;
+  --lg-muted: #b4c2ce;
+  --lg-accent: #46dbad;
+  --lg-aura: radial-gradient(ellipse 60% 55% at 90% 10%, rgb(70 219 173 / .28), transparent 95%), radial-gradient(ellipse 55% 60% at 10% 90%, rgb(145 194 235 / .24), transparent 95%);
+  --lg-shell: rgb(255 255 255 / .02);
+  --lg-body: rgb(255 255 255 / .045);
+  --lg-edge: rgb(255 255 255 / .1);
+  --lg-filter: blur(36px) saturate(130%) brightness(.8);
+  --lg-shadow: 0 16px 42px rgb(0 0 0 / .24);
+  --lg-rim: inset 0 1px 0 rgb(255 255 255 / .62), inset 1px 0 0 rgb(255 255 255 / .08), inset 0 -1px 0 rgb(255 255 255 / .12), inset 0 -3px 0 rgb(0 0 0 / .4);
+  --lg-lens: linear-gradient(125deg, rgb(255 255 255 / .09), transparent 36%);
+  --lg-light-arc: radial-gradient(ellipse 33% 48% at 83% 45%, transparent 64%, rgb(210 249 234 / .12) 65%, transparent 68%);
+  --lg-header: rgb(7 16 23 / .9);
+  --lg-header-filter: blur(24px) saturate(120%);
+  --lg-fallback: #111a21;
+  --lg-fallback-hover: #18232b;
+  --lg-fallback-selected: #132c29;
+  --lg-hover: rgb(255 255 255 / .065);
+  --lg-cta-shadow: inset 0 1px 0 rgb(255 255 255 / .62), inset 0 -2px 0 rgb(0 0 0 / .24), 0 6px 18px rgb(70 219 173 / .18);
+  --lg-panel: 28px;
+  --lg-card: 24px;
+  --lg-small: 16px;
+  --lg-pill: 999px;
+  --lg-line: 1px;
+  --lg-focus: 2px;
+  --lg-focus-gap: 3px;
+  --lg-icon: 20px;
+  --lg-fade: 16px;
+  --lg-motion: 160ms cubic-bezier(.2, .8, .2, 1);
+  --lg-press: .98;
+  --lg-text-strong: #dce5eb;
+  --lg-edge-active: rgb(255 255 255 / .32);
+  --lg-divider: rgb(255 255 255 / .12);
+  --lg-selected: rgb(70 219 173 / .12);
+  --lg-cta-hover: #62e4ba;
+  --soft: var(--lg-muted);
+  --muted: var(--lg-muted);
+}
+
+.scene {
+  background: var(--lg-aura), var(--lg-canvas);
+  overflow: hidden;
+}
+
+.scene::before { opacity: .5; }
+.scene::after { background: var(--lg-light-arc); }
+body[data-view]:not([data-view=home]) .scene { opacity: 1; }
+
+.page-section,
+.project-card,
+.practice-preview,
+.agent-process,
+.agent-node,
+.aside-note,
+.telegram-card {
+  background: var(--lg-body);
+  border: var(--lg-line) solid var(--lg-edge);
+  box-shadow: var(--lg-rim), var(--lg-shadow);
+  -webkit-backdrop-filter: var(--lg-filter);
+  backdrop-filter: var(--lg-filter);
+}
+
+.page-section { background: var(--lg-shell); border-radius: var(--lg-panel); }
+.agent-process { background: var(--lg-shell); }
+.practice-preview,
+.telegram-card { background: var(--lg-lens), var(--lg-shell); }
+.practice-preview,
+.project-card,
+.telegram-card {
+  --lg-spot: radial-gradient(circle 180px at var(--glass-x, 25%) var(--glass-y, 0%), rgb(255 255 255 / .055), transparent 72%);
+}
+.project-card,
+.practice-preview,
+.agent-process,
+.telegram-card { border-radius: var(--lg-card); }
+.agent-node,
+.aside-note { border-radius: var(--lg-small); }
+
+.agent-project { border-top-color: var(--lg-accent); }
+.orchestrator { border-color: var(--lg-edge-active); }
+.integration-preview { border-color: var(--lg-edge); }
+.preview-top,
+.integration-preview .preview-top { color: var(--lg-accent); }
+.preview-caption { color: var(--lg-text-strong); }
+.preview-footnote,
+.footer { color: var(--lg-muted); }
+.preview-symbol,
+.integration-preview .preview-symbol { color: var(--lg-selected); }
+.skills-grid article { border-left-color: var(--lg-edge-active); }
+.flow,
+details,
+.background-note,
+.education,
+.experience-aside { border-color: var(--lg-divider); }
+
+.button,
+.social-link,
+.filters button,
+.status,
+.flow span,
+.tags span {
+  background: var(--lg-body);
+  border: var(--lg-line) solid var(--lg-edge);
+  border-radius: var(--lg-pill);
+}
+
+.button,
+.social-link,
+.filters button {
+  box-shadow: var(--lg-rim), var(--lg-shadow);
+  -webkit-backdrop-filter: var(--lg-filter);
+  backdrop-filter: var(--lg-filter);
+}
+
+.button:not(.button-outline) {
+  color: var(--lg-canvas);
+  background: var(--lg-accent);
+  border-color: var(--lg-edge-active);
+  box-shadow: var(--lg-cta-shadow);
+}
+
+.button-outline { color: var(--lg-text); }
+.status,
+.tags span { color: var(--lg-text-strong); }
+.status-live { background: var(--lg-selected); color: var(--lg-accent); }
+.filters button { color: var(--lg-text-strong); }
+.filters button.active {
+  background: var(--lg-selected);
+  border-color: var(--lg-edge-active);
+  color: var(--lg-accent);
+}
+
+.nav a {
+  border-radius: var(--lg-pill);
+  transition: background-color var(--lg-motion), color var(--lg-motion);
+}
+
+.button,
+.social-link,
+.filters button,
+.practice-preview,
+.project-card,
+.telegram-card {
+  transition: background-color var(--lg-motion), border-color var(--lg-motion), transform var(--lg-motion);
+}
+
+/* Stable header: no brightness filter and no sharp bottom border. */
+body[data-view]:not([data-view=home]) .header {
+  background: var(--lg-header);
+  border-bottom: 0;
+  -webkit-backdrop-filter: var(--lg-header-filter);
+  backdrop-filter: var(--lg-header-filter);
+}
+
+body[data-view]:not([data-view=home]) .header::after {
+  content: "";
+  position: absolute;
+  inset: 100% 0 auto;
+  height: var(--lg-fade);
+  background: linear-gradient(var(--lg-header), transparent);
+  pointer-events: none;
+}
+
+button,
+a,
+summary {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+}
+button { appearance: none; }
+.social-link svg { width: var(--lg-icon); height: var(--lg-icon); }
+.nav { overscroll-behavior: contain; }
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+  outline: var(--lg-focus) solid var(--lg-accent);
+  outline-offset: var(--lg-focus-gap);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .practice-preview:hover,
+  .integration-preview:hover,
+  .project-card:hover,
+  .telegram-card:hover {
+    background: var(--lg-spot), var(--lg-body);
+    border-color: var(--lg-edge-active);
+    transform: none;
+  }
+  .button:not(.button-outline):hover { background: var(--lg-cta-hover); transform: none; }
+  .button-outline:hover,
+  .social-link:hover,
+  .filters button:hover,
+  .nav a:hover { background: var(--lg-hover); border-color: var(--lg-edge-active); }
+}
+
+.button:active,
+.social-link:active,
+.filters button:active,
+.practice-preview:active,
+.telegram-card:active { transform: scale(var(--lg-press)); }
+
+@media (max-width: 760px) {
+  body[data-view]:not([data-view=home]) .menu-toggle {
+    background: var(--lg-body);
+    border-color: var(--lg-edge);
+    border-radius: var(--lg-pill);
+    box-shadow: var(--lg-shadow);
+    -webkit-backdrop-filter: var(--lg-header-filter);
+    backdrop-filter: var(--lg-header-filter);
+  }
+  body[data-view]:not([data-view=home]) .nav {
+    background: var(--lg-fallback);
+    border: var(--lg-line) solid var(--lg-edge);
+    border-radius: var(--lg-card);
+    box-shadow: var(--lg-shadow);
+    -webkit-backdrop-filter: var(--lg-header-filter);
+    backdrop-filter: var(--lg-header-filter);
+  }
+  .menu-toggle:active { transform: scale(var(--lg-press)); }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .page-section,
+  .project-card,
+  .practice-preview,
+  .agent-process,
+  .agent-node,
+  .aside-note,
+  .telegram-card,
+  .button-outline,
+  .social-link,
+  .filters button { background: var(--lg-fallback); }
+  .filters button.active { background: var(--lg-fallback-selected); }
+  @media (hover: hover) and (pointer: fine) {
+    .practice-preview:hover,
+    .integration-preview:hover,
+    .project-card:hover,
+    .telegram-card:hover,
+    .button-outline:hover,
+    .social-link:hover,
+    .filters button:hover { background: var(--lg-fallback-hover); }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button,
+  .social-link,
+  .filters button,
+  .practice-preview,
+  .project-card,
+  .telegram-card,
+  .nav a,
+  .menu-toggle { transition: none; transform: none; }
+  .button:active,
+  .social-link:active,
+  .filters button:active,
+  .practice-preview:active,
+  .telegram-card:active,
+  .menu-toggle:active { transform: none; }
+}
+
+@media print {
+  :root { --soft: #333; }
+  .page-section,
+  .project-card,
+  .practice-preview,
+  .agent-process,
+  .agent-node,
+  .aside-note,
+  .telegram-card {
+    background: white;
+    color: black;
+    border-color: #ccc;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .status,
+  .flow span,
+  .tags span { color: #333; background: white; border-color: #ccc; }
+  .agent-node > span,
+  .agent-node small,
+  .telegram-card small { color: #333; }
+}
