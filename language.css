@@ -1,0 +1,53 @@
+/* Language controls stay outside the navigation disclosure on every route. */
+:root { --language-button-size: 40px; --language-gap: 2px; }
+.language-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--language-gap);
+  flex-shrink: 0;
+}
+.language-switch button {
+  width: var(--language-button-size);
+  min-height: var(--menu-height);
+  padding: 0;
+  border: 0;
+  border-radius: var(--lg-pill);
+  background: transparent;
+  color: var(--lg-muted);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  cursor: pointer;
+  transition: color var(--lg-motion), background-color var(--lg-motion);
+}
+.language-switch button[aria-pressed=true] { color: var(--lg-accent); background: var(--menu-lens-fill); }
+.language-switch button:focus-visible { outline: 2px solid var(--lg-accent); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .language-switch button:hover { color: var(--lg-text); background: var(--menu-lens-fill); }
+}
+body[data-view=home] .language-switch { position: absolute; top: var(--menu-offset); right: 0; }
+body[data-view=home] .header-inner { padding-top: 76px; }
+body[data-view]:not([data-view=home]) .header-inner { gap: 14px; }
+body[data-view]:not([data-view=home]) .navigation-shell { margin-left: auto; }
+@media (900px <= width < 1100px) {
+  body[data-view]:not([data-view=home]) .header-inner { padding-inline: 8px; gap: 8px; }
+  body[data-view]:not([data-view=home]) .header h1 { font-size: 24px; }
+  body[data-view]:not([data-view=home]) .navigation-shell .nav { --menu-item-padding: 10px; }
+}
+@media (width < 900px) {
+  body[data-view]:not([data-view=home]) .header-inner { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 12px; padding: 0 8px; }
+  body[data-view]:not([data-view=home]) .identity { grid-column: 1; grid-row: 1; }
+  body[data-view]:not([data-view=home]) .language-switch { grid-column: 2; grid-row: 1; }
+  body[data-view]:not([data-view=home]) .navigation-shell { grid-column: 1 / -1; grid-row: 2; justify-self: end; }
+  body[data-view]:not([data-view=home]) .header { --menu-island-height: 88px; }
+  body[data-view]:not([data-view=home]) main { padding-top: 120px; }
+  body[data-view]:not([data-view=home]) .header h1 { font-size: 23px; }
+  body[data-view]:not([data-view=home]) .header .menu-toggle { min-width: 0; padding-inline: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .language-switch button { transition: none; }
+}
+@media (width <= 370px) {
+  body[data-view]:not([data-view=home]) .header h1 { font-size: 20px; }
+}

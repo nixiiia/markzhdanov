@@ -9,13 +9,54 @@
   const mobileMenu = window.matchMedia('(width < 900px)');
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
   let lensFrame = 0;
-  const labels = {home:'AI-разработчик',about:'Обо мне',experience:'Опыт',projects:'Проекты',contact:'Контакты'};
+  const localeKey = 'mark-portfolio-language';
+  const resumeFiles = {ru: 'assets/mark-zhdanov-resume.pdf', en: 'assets/mark-zhdanov-resume-en.pdf'};
+  const supportedLocale = value => value === 'ru' || value === 'en';
+  let language = 'ru';
+  function preferredLanguage() {
+    const explicit = new URL(location.href).searchParams.get('lang');
+    if (supportedLocale(explicit)) return explicit;
+    try { const saved = localStorage.getItem(localeKey); if (supportedLocale(saved)) return saved; } catch { /* Storage can be disabled. */ }
+    return 'ru';
+  }
+  const t = key => portfolioMessages[language][key];
+  function syncLocaleUI() {
+    const current = nav.querySelector('[aria-current=page]');
+    const route = document.body.dataset.view || 'home';
+    toggle.querySelector('.menu-current').textContent = current.textContent.trim();
+    toggle.querySelector('.sr-only').textContent = t(toggle.getAttribute('aria-expanded') === 'true' ? 'menu.close' : 'menu.open');
+    document.title = `${t('title.name')} — ${route === 'home' ? t('title.home') : current.textContent.trim()}`;
+    document.querySelector('#filter-status').textContent = t('filter.count').replace('{count}', document.querySelectorAll('.project-card:not([hidden])').length);
+  }
+  function applyLanguage(value, updateURL = false) {
+    language = value;
+    document.documentElement.lang = language;
+    document.querySelectorAll('[data-i18n]').forEach(node => {
+      // Only trusted, bundled translations are rendered; no URL or user content.
+      node.innerHTML = t(node.dataset.i18n);
+    });
+    ['aria-label', 'content'].forEach(attribute => {
+      document.querySelectorAll(`[data-i18n-${attribute}]`).forEach(node => node.setAttribute(attribute, t(node.getAttribute(`data-i18n-${attribute}`))));
+    });
+    document.querySelectorAll('[data-language]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.language === language)));
+    document.querySelectorAll('[data-resume]').forEach(link => link.setAttribute('href', resumeFiles[language]));
+    if (updateURL) {
+      const url = new URL(location.href);
+      url.searchParams.set('lang', language);
+      history.replaceState(null, '', url);
+    }
+    try { localStorage.setItem(localeKey, language); } catch { /* URL switching still works. */ }
+    syncLocaleUI();
+    scheduleLens();
+  }
+  document.querySelectorAll('[data-language]').forEach(button => button.addEventListener('click', () => applyLanguage(button.dataset.language, true)));
+  window.addEventListener('popstate', () => applyLanguage(preferredLanguage()));
   function syncHeaderScroll() {
     const scrolled = document.body.dataset.view !== 'home' && window.scrollY > 8;
     if (header.hasAttribute('data-scrolled') !== scrolled) header.toggleAttribute('data-scrolled', scrolled);
   }
   window.addEventListener('scroll', syncHeaderScroll, {passive:true});
-  function closeMenu() { nav.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); toggle.querySelector('.sr-only').textContent = 'Открыть меню'; }
+  function closeMenu() { nav.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); toggle.querySelector('.sr-only').textContent = t('menu.open'); }
   function moveLens(link) {
     if (mobileMenu.matches || !link) { nav.removeAttribute('data-lens-ready'); return; }
     nav.style.setProperty('--menu-lens-x', `${link.offsetLeft}px`);
@@ -39,8 +80,7 @@
     document.body.dataset.view = route;
     sections.forEach(section => { section.hidden = section.id !== route; });
     nav.querySelectorAll('a').forEach(link => { if (link.hash === '#' + route) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current'); });
-    toggle.querySelector('.menu-current').textContent = nav.querySelector('[aria-current=page]').textContent.trim();
-    document.title = `Марк Жданов — ${labels[route]}`;
+    syncLocaleUI();
     closeMenu();
     scheduleLens();
     window.scrollTo({top:0,behavior:'instant'});
@@ -50,7 +90,7 @@
       target.setAttribute('tabindex','-1'); target.focus({preventScroll:true});
     }
   }
-  toggle.addEventListener('click', () => { if (!mobileMenu.matches) return; const isOpen = toggle.getAttribute('aria-expanded') !== 'true'; nav.classList.toggle('open',isOpen); toggle.setAttribute('aria-expanded',String(isOpen)); toggle.querySelector('.sr-only').textContent = isOpen ? 'Закрыть меню' : 'Открыть меню'; });
+  toggle.addEventListener('click', () => { if (!mobileMenu.matches) return; const isOpen = toggle.getAttribute('aria-expanded') !== 'true'; nav.classList.toggle('open',isOpen); toggle.setAttribute('aria-expanded',String(isOpen)); toggle.querySelector('.sr-only').textContent = t(isOpen ? 'menu.close' : 'menu.open'); });
   nav.addEventListener('click', event => { const link = event.target.closest('a'); if(link && link.hash === location.hash) renderRoute(true); });
   document.addEventListener('keydown', event => { if(event.key === 'Escape' && nav.classList.contains('open')) { closeMenu(); toggle.focus(); } });
   document.addEventListener('pointerdown', event => { if(!navigationShell.contains(event.target) && nav.classList.contains('open')) closeMenu(); });
@@ -71,11 +111,12 @@
     filters.forEach(filter => { const selected = filter.dataset.filter === value; filter.classList.toggle('active',selected); filter.setAttribute('aria-pressed',String(selected)); });
     let count = 0;
     projects.forEach(project => { const visible = value === 'all' || project.dataset.category.split(' ').includes(value); project.hidden = !visible; if(visible) count++; });
-    document.querySelector('#filter-status').textContent = `Показано проектов: ${count}`;
+    document.querySelector('#filter-status').textContent = t('filter.count').replace('{count}', count);
   }
   filters.forEach(button => button.addEventListener('click', () => selectFilter(button.dataset.filter)));
   document.querySelectorAll('[data-project-filter]').forEach(link => link.addEventListener('click', () => selectFilter(link.dataset.projectFilter)));
   // General work links open the full selection; practice links select their own track.
   document.querySelectorAll('a[href="#projects"]:not([data-project-filter])').forEach(link => link.addEventListener('click', () => selectFilter('all')));
+  applyLanguage(preferredLanguage());
   renderRoute();
 })();
