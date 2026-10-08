@@ -3,7 +3,7 @@
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const supportsGlass = CSS.supports('backdrop-filter', 'blur(1px)') || CSS.supports('-webkit-backdrop-filter', 'blur(1px)');
-  const surfaces = [...document.querySelectorAll('.practice-preview, .project-card, .telegram-card')];
+  const surfaces = [...document.querySelectorAll('.practice-preview, .project-card, .telegram-card, .aside-note')];
   let controller;
   let frame = 0;
   let pending;

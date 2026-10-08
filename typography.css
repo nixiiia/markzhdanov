@@ -1,0 +1,137 @@
+/* One local family and one scale for the Russian and English portfolio. */
+@font-face {
+  font-family: "Inter";
+  src: url("assets/fonts/inter-latin-cyrillic.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+:root {
+  --font-ui: "Inter", "Segoe UI", Arial, sans-serif;
+  --type-caption: .75rem;
+  --type-small: .875rem;
+  --type-body: 1rem;
+  --type-lead: clamp(1rem, .95rem + .25vw, 1.125rem);
+  --type-card: clamp(1.25rem, 1.15rem + .5vw, 1.5rem);
+  --type-preview: clamp(1.25rem, 1.1875rem + .25vw, 1.375rem);
+  --type-section: clamp(1.625rem, 1.375rem + 1vw, 2.25rem);
+  --type-display: clamp(2rem, 1.375rem + 3.125vw, 3.5rem);
+  --leading-body: 1.65;
+  --leading-heading: 1.2;
+  --measure-prose: 65ch;
+}
+
+/* Preserve the existing print layout and its dedicated colour rules. */
+@media screen {
+  body {
+    font-family: var(--font-ui);
+    font-size: var(--type-body);
+    line-height: var(--leading-body);
+    font-optical-sizing: auto;
+    font-kerning: normal;
+  }
+
+  h1, h2, h3, .practice-preview strong, .agent-node strong {
+    text-wrap: balance;
+    letter-spacing: -.025em;
+  }
+  p, li { text-wrap: pretty; }
+
+  .header h1 {
+    font-size: var(--type-display);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -.035em;
+  }
+  .page-section h2 {
+    font-size: var(--type-section);
+    line-height: var(--leading-heading);
+    font-weight: 650;
+    letter-spacing: -.03em;
+  }
+  .contact-section h2 { font-size: clamp(2rem, 1.5rem + 2vw, 3rem); }
+  .role {
+    font-size: clamp(1.0625rem, .9375rem + .625vw, 1.375rem);
+    line-height: 1.65;
+    letter-spacing: -.015em;
+  }
+  .hero-copy, .section-intro, .section-head .section-intro, .contact-lead {
+    font-size: var(--type-lead);
+    line-height: var(--leading-body);
+    max-width: var(--measure-prose);
+  }
+  .hero-copy { max-width: 52ch; }
+  .agent-process > p, .skills-grid p, .job p, .job li,
+  .aside-note p, .project-card > p, .detail-content p, .background-note {
+    font-size: var(--type-body);
+    line-height: var(--leading-body);
+    max-width: var(--measure-prose);
+  }
+  .practice-preview strong, .project-card h3, .agent-process h3,
+  .job h3, .aside-note h3, .agent-node strong {
+    font-size: var(--type-card);
+    line-height: 1.3;
+    font-weight: 600;
+    letter-spacing: -.025em;
+  }
+  .skills-grid h3, .previous-experience h3 {
+    font-size: 1.125rem;
+    line-height: 1.4;
+    font-weight: 600;
+  }
+  .practice-preview strong { font-size: var(--type-preview); }
+  .job .company, .education strong, .contact-meta strong, .contact-meta a {
+    font-size: var(--type-body);
+    line-height: 1.5;
+  }
+  .previous-experience strong { font-weight: 600; }
+  .previous-experience p + p { margin-top: 1.5rem; }
+  .job li { margin-bottom: .75rem; }
+
+  .eyebrow, .hero-bottom > span, .preview-top, .preview-caption,
+  .section-label, .skill-index, .agent-node small, .job-date,
+  .project-type, .status, .tags span, .flow, .contact-meta div > span,
+  .telegram-card small, .footer {
+    font-size: var(--type-caption);
+    line-height: 1.5;
+  }
+  .eyebrow, .preview-top, .section-label, .skill-index, .agent-node small,
+  .project-type, .contact-meta div > span, .telegram-card small {
+    letter-spacing: .07em;
+    font-weight: 600;
+  }
+  .hero-bottom > span, .preview-caption, .job-date, .status, .tags span, .footer {
+    letter-spacing: .01em;
+  }
+  .hero-bottom { color: var(--lg-muted); }
+  .project-type, .contact-meta div > span { color: var(--lg-muted); }
+  .agent-node > span, .education p, .pdf-note, .contact-note,
+  .detail-content strong, .text-link, .project-card summary {
+    font-size: var(--type-small);
+    line-height: 1.6;
+  }
+  .text-link { text-decoration: underline; text-underline-offset: .3em; }
+  .button, .filters button { font-size: var(--type-small); line-height: 1.5; }
+  body[data-view] .navigation-shell .nav a { font-size: var(--type-small); }
+  .project-cta { font-size: var(--type-body); }
+  .status { max-width: 100%; white-space: normal; }
+  .project-top { flex-wrap: wrap; gap: .75rem; }
+  .project-card > p { min-height: 0; }
+  .agent-process, .skills-grid article, .experience-layout > *, .project-card { min-width: 0; }
+
+  /* Keep language controls and navigation clear of the compact wordmark. */
+  body[data-view]:not([data-view=home]) .header h1 {
+    font-size: clamp(1.25rem, .9375rem + 1vw, 2rem);
+    letter-spacing: -.04em;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .hero-copy, .section-intro, .section-head .section-intro, .contact-lead {
+    font-size: var(--type-body);
+  }
+  .footer { flex-wrap: wrap; }
+  .project-cta { flex-wrap: wrap; }
+  .telegram-card strong { font-size: clamp(1.25rem, 1rem + 1vw, 1.5rem); }
+}

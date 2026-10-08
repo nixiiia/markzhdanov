@@ -31,6 +31,7 @@
   --lg-fade: 16px;
   --lg-motion: 160ms cubic-bezier(.2, .8, .2, 1);
   --lg-press: .98;
+  --lg-lift: -2px;
   --lg-text-strong: #dce5eb;
   --lg-edge-active: rgb(255 255 255 / .32);
   --lg-divider: rgb(255 255 255 / .12);
@@ -64,11 +65,16 @@ body[data-view]:not([data-view=home]) .scene { opacity: 1; }
 }
 
 .page-section { background: var(--lg-shell); border-radius: var(--lg-panel); }
+@media screen {
+  :is(#about-title, #experience-title, #projects-title),
+  :is(#about-title, #experience-title, #projects-title) .muted { color: var(--lg-text); }
+}
 .agent-process { background: var(--lg-shell); }
 .practice-preview,
 .telegram-card { background: var(--lg-lens), var(--lg-shell); }
 .practice-preview,
 .project-card,
+.aside-note,
 .telegram-card {
   --lg-spot: radial-gradient(circle 180px at var(--glass-x, 25%) var(--glass-y, 0%), rgb(255 255 255 / .055), transparent 72%);
 }
@@ -143,6 +149,7 @@ details,
 .filters button,
 .practice-preview,
 .project-card,
+.aside-note,
 .telegram-card {
   transition: background-color var(--lg-motion), border-color var(--lg-motion), transform var(--lg-motion);
 }
@@ -185,12 +192,15 @@ summary:focus-visible {
   .practice-preview:hover,
   .integration-preview:hover,
   .project-card:hover,
+  .aside-note:hover,
   .telegram-card:hover {
     background: var(--lg-spot), var(--lg-body);
     border-color: var(--lg-edge-active);
     transform: none;
   }
-  .button:not(.button-outline):hover { background: var(--lg-cta-hover); transform: none; }
+  .button:not(.button-outline):hover { background: var(--lg-cta-hover); }
+  .button:hover,
+  .social-link:hover { transform: translateY(var(--lg-lift)); }
   .button-outline:hover,
   .social-link:hover,
   .filters button:hover,
@@ -239,6 +249,7 @@ summary:focus-visible {
     .practice-preview:hover,
     .integration-preview:hover,
     .project-card:hover,
+    .aside-note:hover,
     .telegram-card:hover,
     .button-outline:hover,
     .social-link:hover,
@@ -252,9 +263,12 @@ summary:focus-visible {
   .filters button,
   .practice-preview,
   .project-card,
+  .aside-note,
   .telegram-card,
   .nav a,
   .menu-toggle { transition: none; transform: none; }
+  .button:hover,
+  .social-link:hover { transform: none; }
   .button:active,
   .social-link:active,
   .filters button:active,
