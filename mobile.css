@@ -1,0 +1,141 @@
+/* Mobile reading layer. Desktop typography and print keep their own rules. */
+@media screen and (max-width: 760px) {
+  :root {
+    --type-caption: .8125rem;
+    --type-small: .9375rem;
+    --type-body: 1.0625rem;
+    --type-lead: var(--type-body);
+    --type-card: 1.3125rem;
+    --type-preview: var(--type-card);
+    --type-section: 1.6875rem;
+    --leading-body: 1.6;
+    --mobile-gutter: 1rem;
+    --mobile-section-inset: 1rem;
+    --mobile-card-inset: .875rem;
+    --mobile-node-inset: .75rem;
+    --mobile-space: 1.5rem;
+    --mobile-text-gap: .75rem;
+    --mobile-touch: 2.75rem;
+    --mobile-route-clearance: 8.5rem;
+  }
+
+  html { scroll-padding-top: var(--mobile-route-clearance); }
+  .page-section, .footer {
+    width: calc(100% - var(--mobile-gutter) - var(--mobile-gutter));
+  }
+  .page-section {
+    padding: var(--mobile-space) var(--mobile-section-inset);
+    margin-block: var(--mobile-gutter);
+  }
+  .section-label { margin-bottom: 1rem; }
+  .section-label span { flex: 1; max-width: 6rem; }
+  .page-section h2 { margin-bottom: 1.25rem; }
+  .section-intro, .section-head .section-intro {
+    margin: 0 0 var(--mobile-space);
+  }
+  .contact-lead { margin-bottom: var(--mobile-space); }
+  .subheading {
+    font-size: var(--type-caption);
+    line-height: 1.5;
+    letter-spacing: .05em;
+    margin-block: var(--mobile-space) 1rem;
+  }
+
+  .header h1 { margin-bottom: 1rem; }
+  .role { font-size: 1.125rem; line-height: 1.5; }
+  .hero-copy { margin-block: var(--mobile-space); }
+  body[data-view=home] .header-inner {
+    width: calc(100% - var(--mobile-gutter) - var(--mobile-gutter));
+    padding-bottom: var(--mobile-space);
+  }
+  body[data-view=home] .navigation-shell { width: 100%; }
+  .hero-actions { margin-top: var(--mobile-space); }
+  .hero-practices { margin-top: var(--mobile-space); gap: 1rem; }
+  .practice-preview { padding: 1.125rem; }
+  .practice-preview strong { margin-block: var(--mobile-text-gap); }
+  .preview-caption { line-height: 1.5; }
+  .hero-bottom { margin-top: var(--mobile-space); }
+  .eyebrow, .preview-top, .skill-index, .project-type {
+    letter-spacing: .045em;
+  }
+
+  .agent-process {
+    padding: 1.25rem var(--mobile-card-inset);
+    margin-block: var(--mobile-space);
+  }
+  .agent-process h3, .aside-note h3 { margin-bottom: var(--mobile-text-gap); }
+  .agent-process > p, .aside-note p { margin-bottom: 0; }
+  .agent-diagram { margin-block: var(--mobile-space); gap: 1rem; }
+  .agent-node { padding: 1rem var(--mobile-node-inset); }
+  .agent-node > span { font-size: var(--type-small); line-height: 1.5; }
+  .agent-branches { margin-left: var(--mobile-node-inset); gap: .75rem; }
+  .agent-branches::before, .agent-branches .agent-node::before {
+    left: calc(-1 * var(--mobile-node-inset));
+  }
+  .agent-branches .agent-node::before { width: var(--mobile-node-inset); }
+  .skills-grid { gap: var(--mobile-space); }
+  .skills-grid article { padding-left: var(--mobile-node-inset); }
+  .skills-grid h3 { font-size: 1.1875rem; margin-bottom: .5rem; }
+  .skill-index { margin-bottom: .5rem; }
+  .background-note { margin-top: var(--mobile-space); padding-top: var(--mobile-space); }
+
+  .experience-layout { gap: var(--mobile-space); }
+  .job { padding-left: var(--mobile-card-inset); padding-bottom: 2rem; }
+  .job-date { margin-bottom: .5rem; }
+  .job h3 { line-height: 1.3; margin-bottom: .5rem; }
+  .job .company { margin-bottom: 1rem; }
+  .job ul { padding-left: 1rem; }
+  .job li { padding-left: 0; margin-bottom: 1rem; }
+  .previous-experience h3 { margin-bottom: 1rem; }
+  .previous-experience strong {
+    display: block;
+    margin-bottom: .5rem;
+    color: var(--lg-text-strong);
+    line-height: 1.5;
+  }
+  .previous-experience strong + br { display: none; }
+  .previous-experience p + p { margin-top: var(--mobile-space); }
+  .aside-note { padding: 1.25rem var(--mobile-card-inset); }
+  .education { margin-top: var(--mobile-space); }
+
+  .projects-grid { gap: var(--mobile-space); }
+  .project-card { padding: 1.25rem var(--mobile-card-inset) 0; }
+  .project-top { margin-bottom: 1rem; }
+  .project-type { display: block; margin-bottom: .5rem; }
+  .project-card h3 { line-height: 1.3; margin-bottom: var(--mobile-text-gap); }
+  .project-card > p { margin-bottom: 0; }
+  .project-card details { margin-inline: calc(-1 * var(--mobile-card-inset)); }
+  .project-card summary {
+    min-height: var(--mobile-touch);
+    padding: .875rem var(--mobile-card-inset);
+  }
+  .detail-content { padding: .25rem var(--mobile-card-inset) .75rem; }
+  .detail-content strong { display: block; margin-bottom: .5rem; }
+  .detail-content p { margin-bottom: 1.25rem; }
+  .flow { gap: .5rem; font-size: var(--type-caption); line-height: 1.5; }
+  .tags span, .status { font-size: var(--type-caption); line-height: 1.5; }
+  .filters { gap: .5rem; margin-bottom: var(--mobile-space); }
+  .filters button { min-height: var(--mobile-touch); padding-inline: .75rem; }
+  .filters button span { font-size: var(--type-caption); }
+
+  .button, .social-link, .text-link { min-height: var(--mobile-touch); }
+  .text-link { line-height: 1.5; }
+  .header .language-switch { --language-button-size: var(--mobile-touch); }
+  .header .language-switch button {
+    font-size: var(--type-caption);
+    min-height: var(--mobile-touch);
+  }
+  body[data-view] .navigation-shell .nav a { font-size: var(--type-body); }
+  .menu-label { font-size: var(--type-small); }
+  .menu-current { font-size: var(--type-caption); }
+
+  .telegram-card { padding: 1.25rem var(--mobile-card-inset); }
+  .contact-meta { gap: var(--mobile-space); }
+  .contact-meta a { text-decoration: underline; text-underline-offset: .2em; }
+  .contact-note { margin-top: var(--mobile-space); }
+  .footer { gap: .75rem; }
+}
+
+@media screen and (max-width: 430px) {
+  .contact-meta { grid-template-columns: 1fr; }
+}
