@@ -11,6 +11,9 @@
   let lensFrame = 0;
   const localeKey = 'mark-portfolio-language';
   const resumeFiles = {ru: 'assets/mark-zhdanov-resume.pdf', en: 'assets/mark-zhdanov-resume-en.pdf'};
+  const resumeLinks = [...document.querySelectorAll('[data-resume]')];
+  let resumePending = false;
+  let resumeStatus = '';
   const supportedLocale = value => value === 'ru' || value === 'en';
   let language = 'ru';
   function preferredLanguage() {
@@ -20,6 +23,50 @@
     return 'ru';
   }
   const t = key => portfolioMessages[language][key];
+  function syncResumeUI() {
+    resumeLinks.forEach(link => {
+      link.setAttribute('aria-busy', String(resumePending));
+      link.setAttribute('aria-disabled', String(resumePending));
+    });
+    document.querySelectorAll('[data-resume-status]').forEach(node => {
+      node.textContent = resumeStatus ? t(resumeStatus) : '';
+    });
+  }
+  resumeLinks.forEach(link => link.addEventListener('click', async event => {
+    event.preventDefault();
+    if (resumePending) return;
+    const downloadLanguage = language;
+    const downloadDate = new Date();
+    resumePending = true;
+    resumeStatus = 'resume.preparing';
+    syncResumeUI();
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 20000);
+    try {
+      const response = await fetch(resumeFiles[downloadLanguage], {signal: controller.signal});
+      if (!response.ok) throw new Error('Resume template could not be loaded');
+      const bytes = await response.arrayBuffer();
+      clearTimeout(timeout);
+      const pdf = await resumePdf.create(bytes, downloadDate);
+      const url = URL.createObjectURL(new Blob([pdf], {type: 'application/pdf'}));
+      const download = document.createElement('a');
+      download.href = url;
+      download.download = resumeFiles[downloadLanguage].split('/').pop();
+      document.body.append(download);
+      try { download.click(); } finally {
+        download.remove();
+        // Keep the URL alive long enough for the browser to consume the Blob.
+        setTimeout(() => URL.revokeObjectURL(url), 60000);
+      }
+      resumeStatus = 'resume.ready';
+    } catch {
+      resumeStatus = 'resume.error';
+    } finally {
+      clearTimeout(timeout);
+      resumePending = false;
+      syncResumeUI();
+    }
+  }));
   function syncLocaleUI() {
     const current = nav.querySelector('[aria-current=page]');
     const route = document.body.dataset.view || 'home';
@@ -40,6 +87,7 @@
     });
     document.querySelectorAll('[data-language]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.language === language)));
     document.querySelectorAll('[data-resume]').forEach(link => link.setAttribute('href', resumeFiles[language]));
+    syncResumeUI();
     if (updateURL) {
       const url = new URL(location.href);
       url.searchParams.set('lang', language);

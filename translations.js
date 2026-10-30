@@ -1,5 +1,3 @@
-'use strict';
-// Trusted local copy. Markup is limited to existing presentation elements.
 const portfolioMessages = {
   "ru": {
     "meta.description": "Марк Жданов — AI-разработчик. AI-агенты, интеграция языковых моделей и автоматизация. Опыт работы, проекты и контакты.",
@@ -80,7 +78,7 @@ const portfolioMessages = {
     "education.course.1": "Фронтенд-разработка",
     "education.details.0": "Московский финансово-промышленный университет · среднее профессиональное образование · 2025",
     "education.details.1": "Яндекс Практикум · курс · 2023",
-    "resume.note": "Одностраничное резюме · обновлено 30 октября 2026.",
+    "resume.note": "Одностраничное резюме.",
     "projects.heading": "Избранные <span class=\"muted\">проекты</span>",
     "projects.intro": "AI-агенты для разработки, обработка документов и веб-приложения. Внутренние проекты представлены без публикации закрытых материалов.",
     "filter.label": "Фильтр проектов",
@@ -168,7 +166,7 @@ const portfolioMessages = {
     "contact.label.3": "Резюме",
     "contact.value.0": "Москва",
     "contact.value.1": "Офис · гибрид · удалённо",
-    "contact.resume": "PDF · 30.10.2026",
+    "contact.resume": "Скачать PDF",
     "contact.note": "В сообщении расскажите о проекте или вакансии.",
     "footer.0": "© 2026 Марк Жданов",
     "footer.1": "AI-агенты · Интеграция · Автоматизация",
@@ -178,7 +176,10 @@ const portfolioMessages = {
     "menu.close": "Закрыть меню",
     "language.label": "Язык сайта",
     "filter.count": "Показано проектов: {count}",
-    "job.achievement.4": "<strong>В разработке.</strong> Корпоративный сайт с каталогом продукции для международного представительства компании."
+    "job.achievement.4": "<strong>В разработке.</strong> Корпоративный сайт с каталогом продукции для международного представительства компании.",
+    "resume.preparing": "Подготавливаю PDF…",
+    "resume.ready": "PDF готов к скачиванию.",
+    "resume.error": "Не удалось подготовить PDF. Нажмите кнопку ещё раз."
   },
   "en": {
     "meta.description": "Mark Zhdanov — AI Developer. AI agents, LLM integration and automation. Experience, selected projects and contact details.",
@@ -259,7 +260,7 @@ const portfolioMessages = {
     "education.course.1": "Frontend Development",
     "education.details.0": "Moscow University for Industry and Finance · Vocational diploma · 2025",
     "education.details.1": "Yandex Practicum · Course · 2023",
-    "resume.note": "One-page resume · updated October 30, 2026.",
+    "resume.note": "One-page resume.",
     "projects.heading": "Selected <span class=\"muted\">projects</span>",
     "projects.intro": "Development agents, document processing and web applications. Internal projects are described without disclosing confidential materials.",
     "filter.label": "Filter projects",
@@ -347,7 +348,7 @@ const portfolioMessages = {
     "contact.label.3": "Résumé",
     "contact.value.0": "Moscow",
     "contact.value.1": "On-site · Hybrid · Remote",
-    "contact.resume": "PDF · Oct 30, 2026",
+    "contact.resume": "Download PDF",
     "contact.note": "Tell me about your project or the role you are hiring for.",
     "footer.0": "© 2026 Mark Zhdanov",
     "footer.1": "AI Agents · Integration · Automation",
@@ -357,6 +358,9 @@ const portfolioMessages = {
     "menu.close": "Close menu",
     "language.label": "Site language",
     "filter.count": "Projects shown: {count}",
-    "job.achievement.4": "<strong>In development.</strong> A corporate website with a product catalog for the company’s international representative office."
+    "job.achievement.4": "<strong>In development.</strong> A corporate website with a product catalog for the company’s international representative office.",
+    "resume.preparing": "Preparing PDF…",
+    "resume.ready": "Your PDF is ready to download.",
+    "resume.error": "Could not prepare the PDF. Please click the button to try again."
   }
 };
