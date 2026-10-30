@@ -74,3 +74,8 @@ body[data-view=home] .identity{max-width:64%}
 .agent-process h3{font-size:21px}
 @media(max-width:760px){.header h1{font-size:clamp(30px,7.6vw,44px);letter-spacing:-1px}.page-section h2{font-size:26px}.contact-section h2{font-size:34px}.practice-preview strong,.project-card h3{font-size:21px}.agent-process h3{font-size:20px}}
 .project-top .status:only-child{margin-inline-start:auto}
+
+/* Download feedback shares the existing text palette and spacing. */
+.resume-status { color: var(--muted); font-size: .875rem; }
+.resume-status:empty { display: none; }
+[data-resume][aria-busy="true"] { cursor: progress; }
